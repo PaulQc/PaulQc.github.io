@@ -1,0 +1,156 @@
+ <!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produits - Sélection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .form-container {
+      margin-bottom: 20px;
+    }
+
+    .form-input {
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    /* Ajoutez une classe pour définir des dimensions fixes pour les images */
+    .product-image {
+      width: 250px; /* Largeur fixe */
+      height: 150px; /* Hauteur fixe */
+      object-fit: cover; /* Ajuste l'image pour remplir la zone tout en gardant une bonne apparence */
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Bienvenue ! Sélectionnez vos produits</h1>
+
+  <!-- Formulaire utilisateur -->
+  <div class="form-container">
+    <div class="form-input">
+      <label for="name">Nom :</label>
+      <input type="text" id="name" placeholder="Entrez votre nom">
+    </div>
+    <div class="form-input">
+      <label for="phone">Téléphone :</label>
+      <input type="text" id="phone" placeholder="Entrez votre numéro">
+    </div>
+  </div>
+
+  <!-- Tableau des produits -->
+  <table id="productTable">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Description</th>
+        <th>Sélectionner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Exemple de produits -->
+      <tr>
+        <td><img src="BouclesOreilles.jpg" alt="Produit 1" class="product-image"></td>
+        <td>Concilie petit prix et qualité avec ces charmantes boucles d’oreilles dormeuses pour enfant faites en acier inoxydable!<br>Fais-en cadeau à une occasion spéciale! <br>
+		Dimensions: 10 mm <br>
+		Cette collection est conseillée aux enfants âgés entre 3 et 14 ans.</td>
+        <td><input type="checkbox" value="Produit 1"></td>
+      </tr>
+      <tr>
+        <td><img src="https://via.placeholder.com/300" alt="Produit 2" class="product-image"></td>
+        <td>Produit 2 - Description détaillée</td>
+        <td><input type="checkbox" value="Produit 2"></td>
+      </tr>
+      <tr>
+        <td><img src="https://via.placeholder.com/400" alt="Produit 3" class="product-image"></td>
+        <td>Produit 3 - Description détaillée</td>
+        <td><input type="checkbox" value="Produit 3"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Boutons d'action -->
+  <div class="actions">
+    <button id="proceedButton">Procéder</button>
+    <button id="cancelButton">Annuler</button>
+  </div>
+
+  <script>
+    document.getElementById('proceedButton').addEventListener('click', function () {
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+
+      if (!name || !phone) {
+        alert('Veuillez remplir votre nom et téléphone.');
+        return;
+      }
+
+      const selectedProducts = [];
+      const checkboxes = document.querySelectorAll('#productTable input[type="checkbox"]:checked');
+
+      checkboxes.forEach(checkbox => {
+        selectedProducts.push(checkbox.value);
+      });
+
+      if (selectedProducts.length === 0) {
+        alert('Veuillez sélectionner au moins un produit.');
+        return;
+      }
+
+      // Création du contenu à sauvegarder
+      const content = `Nom: ${name}\nTéléphone: ${phone}\nProduits sélectionnés:\n- ${selectedProducts.join('\n- ')}`;
+
+      // Sauvegarde via un fichier texte
+      const blob = new Blob([content], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'selection.txt';
+      link.click();
+    });
+
+    document.getElementById('cancelButton').addEventListener('click', function () {
+      // Remet le formulaire à zéro
+      document.getElementById('name').value = '';
+      document.getElementById('phone').value = '';
+      const checkboxes = document.querySelectorAll('#productTable input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+      });
+    });
+  </script>
+
+</body>
+
+</html>
+
